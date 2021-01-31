@@ -1,6 +1,7 @@
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const path = require("path");
 const sharp = require("sharp");
+const fs = require("fs");
 const jsdom = require("./node_modules/jsdom");
 const { JSDOM } = jsdom;
 
@@ -8,6 +9,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(syntaxHighlight);
   eleventyConfig.addPassthroughCopy("css");
   eleventyConfig.addPassthroughCopy("images");
+  eleventyConfig.addPassthroughCopy("not_found.html");
   eleventyConfig.addTransform("responsiveimg", async (content, outputPath) => {
     // Only apply transforms if the output is HTML (not XML or CSS or something)
     if (outputPath.endsWith(".html")) {
@@ -102,6 +104,22 @@ module.exports = function (eleventyConfig) {
     }
 
     return content;
+  });
+  eleventyConfig.setBrowserSyncConfig({
+    callbacks: {
+      ready: function (err, bs) {
+        bs.addMiddleware("*", (req, res) => {
+          const content_404 = fs.readFileSync(
+            path.join(__dirname, "not_found.html")
+          );
+          // Add 404 http status code in request header.
+          res.writeHead(404, { "Content-Type": "text/html; charset=UTF-8" });
+          // Provides the 404 content without redirect.
+          res.write(content_404);
+          res.end();
+        });
+      },
+    },
   });
   return {
     passthroughFileCopy: true,

@@ -8,7 +8,8 @@
     "imgs": "node scripts/sharp.js",
     "build": "rm -rf _site && npm run imgs && npx @11ty/eleventy",
     "build:debug": "npm run imgs && DEBUG=Eleventy* npx @11ty/eleventy",
-    "serve": "npm run build && npx @11ty/eleventy --serve"
+    "serve": "npm run build && npx @11ty/eleventy --serve",
+    "deploy": "neocities push _site"
   },
   "keywords": [],
   "author": "",
