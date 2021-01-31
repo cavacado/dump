@@ -6,15 +6,25 @@ const { JSDOM } = jsdom;
 const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const embedTwitter = require("eleventy-plugin-embed-twitter");
 const embedYouTube = require("eleventy-plugin-youtube-embed");
+const markdownIt = require("markdown-it");
+const markdownItKatex = require("markdown-it-katex");
 
-const EMBED_YOUTUBE = {
+const KATEX_CONFIG = {
+  html: true,
+  breaks: false,
+  linkify: true,
+};
+
+const EMBED_YOUTUBE_CONFIG = {
   lazy: true,
 };
 
 module.exports = function (eleventyConfig) {
+  let markdownLib = markdownIt(KATEX_CONFIG).use(markdownItKatex);
   eleventyConfig.addPlugin(syntaxHighlight);
   eleventyConfig.addPlugin(embedTwitter);
-  eleventyConfig.addPlugin(embedYouTube, EMBED_YOUTUBE);
+  eleventyConfig.addPlugin(embedYouTube, EMBED_YOUTUBE_CONFIG);
+  eleventyConfig.setLibrary("md", markdownLib);
   eleventyConfig.addPassthroughCopy("css");
   eleventyConfig.addPassthroughCopy("images");
   eleventyConfig.addPassthroughCopy("not_found.html");
