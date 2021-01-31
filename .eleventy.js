@@ -1,12 +1,20 @@
-const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
 const path = require("path");
 const sharp = require("sharp");
 const fs = require("fs");
 const jsdom = require("./node_modules/jsdom");
 const { JSDOM } = jsdom;
+const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
+const embedTwitter = require("eleventy-plugin-embed-twitter");
+const embedYouTube = require("eleventy-plugin-youtube-embed");
+
+const EMBED_YOUTUBE = {
+  lazy: true,
+};
 
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(syntaxHighlight);
+  eleventyConfig.addPlugin(embedTwitter);
+  eleventyConfig.addPlugin(embedYouTube, EMBED_YOUTUBE);
   eleventyConfig.addPassthroughCopy("css");
   eleventyConfig.addPassthroughCopy("images");
   eleventyConfig.addPassthroughCopy("not_found.html");
@@ -70,7 +78,6 @@ module.exports = function (eleventyConfig) {
           // Join the `srcset` into a string. that can be added to the `<img>` tag
 
           srcSet = srcSet.join(", ");
-          console.log(srcSet);
 
           // Set the `srcset` attribute
 
