@@ -8,8 +8,10 @@ const embedTwitter = require("eleventy-plugin-embed-twitter");
 const embedYouTube = require("eleventy-plugin-youtube-embed");
 const markdownIt = require("markdown-it");
 const markdownItKatex = require("markdown-it-katex");
+const navigation = require("@11ty/eleventy-navigation");
+const { format } = require("date-fns");
 
-const KATEX_CONFIG = {
+const MD_CONFIG = {
   html: true,
   breaks: false,
   linkify: true,
@@ -19,18 +21,32 @@ const EMBED_YOUTUBE_CONFIG = {
   lazy: true,
 };
 
+const GRAY_MATTER_CONFIG = {
+  excerpt: true,
+  excerpt_separator: "<!-- excerpt -->",
+};
+
+const DDMMYYYY = "dd.MM.yyyy";
+const dateFormatCb = (unformat) => format(unformat, DDMMYYYY);
+
 module.exports = function (eleventyConfig) {
-  let markdownLib = markdownIt(KATEX_CONFIG).use(markdownItKatex);
+  let markdownLib = markdownIt(MD_CONFIG).use(markdownItKatex);
+  eleventyConfig.addFilter("date", dateFormatCb);
+  eleventyConfig.addFilter("toHTML", (str) => {
+    return new markdownIt(MD_CONFIG).renderInline(str);
+  });
   eleventyConfig.addPlugin(syntaxHighlight);
   eleventyConfig.addPlugin(embedTwitter);
   eleventyConfig.addPlugin(embedYouTube, EMBED_YOUTUBE_CONFIG);
+  eleventyConfig.addPlugin(navigation);
   eleventyConfig.setLibrary("md", markdownLib);
   eleventyConfig.addPassthroughCopy("css");
   eleventyConfig.addPassthroughCopy("images");
   eleventyConfig.addPassthroughCopy("not_found.html");
+  eleventyConfig.setFrontMatterParsingOptions(GRAY_MATTER_CONFIG);
   eleventyConfig.addTransform("responsiveimg", async (content, outputPath) => {
     // Only apply transforms if the output is HTML (not XML or CSS or something)
-    if (outputPath.endsWith(".html")) {
+    if (outputPath && outputPath.endsWith(".html")) {
       // Feed the content into JSDOM
       const dom = new JSDOM(content);
       const document = dom.window.document;

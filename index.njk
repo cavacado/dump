@@ -1,0 +1,22 @@
+---
+layout: layout.njk
+title: main
+tags: top
+eleventyNavigation:
+  key: /
+  order: 1
+---
+
+<h1>{{ title }}</h1>
+{% for post in collections.post -%}
+  <div>
+    <h2>{{post.data.title}}</h2>
+    <p>excerpt:
+      {{post.data.page.excerpt | toHTML }}</p>
+    <p>date added:
+      {{ post.data.date | date }}
+      <a href="{{post.url}}">go</a>
+    </p>
+  </div>
+  <hr />
+{% endfor -%}
