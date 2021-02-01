@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rimraf _site",
     "imgs": "node scripts/sharp.js",
-    "build": "rm -rf _site && npm run imgs && npx @11ty/eleventy",
+    "build": "npm run clean && npm run imgs && npx @11ty/eleventy",
     "build:debug": "npm run imgs && DEBUG=Eleventy* npx @11ty/eleventy",
     "serve": "npm run build && npx @11ty/eleventy --serve",
     "deploy": "npm run build && neocities push _site"
@@ -18,6 +19,7 @@
     "@11ty/eleventy": "^0.11.1",
     "@11ty/eleventy-navigation": "^0.1.6",
     "@11ty/eleventy-plugin-syntaxhighlight": "^3.0.6",
+    "@11tyrocks/eleventy-plugin-emoji-readtime": "^1.0.1",
     "date-fns": "^2.16.1",
     "eleventy-plugin-embed-twitter": "^1.1.0",
     "eleventy-plugin-youtube-embed": "^1.5.0",
@@ -27,6 +29,7 @@
     "markdown-it-katex": "^2.0.3",
     "prettier": "^2.2.1",
     "pretty-quick": "^3.1.0",
+    "rimraf": "^3.0.2",
     "sharp": "^0.27.1"
   },
   "husky": {

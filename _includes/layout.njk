@@ -20,4 +20,10 @@
   <body>
     {{ content | safe }}
   </body>
+  <hr />
+  <nav>
+    {%- for entry in collections.all | eleventyNavigation %}
+      <a href="{{ entry.url | url }}">{{ entry.title }}</a>
+    {%- endfor %}
+  </nav>
 </html>
