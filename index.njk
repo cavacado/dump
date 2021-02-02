@@ -21,7 +21,7 @@ eleventyNavigation:
     </p>
     <p>
       <strong>tags:</strong>
-      {% for tag in post.data.tags -%}|<a href="/tags/{{tag}}">{{tag}}</a>
+      {% for tag in post.data.tags -%}| <a href="/tags/{{tag}}">{{tag}}</a>
       {% endfor -%}|</p>
   </div>
 {% endfor -%}

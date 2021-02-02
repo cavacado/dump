@@ -5,6 +5,7 @@ const embedTwitter = require("eleventy-plugin-embed-twitter");
 const embedYouTube = require("eleventy-plugin-youtube-embed");
 const markdownIt = require("markdown-it");
 const markdownItKatex = require("markdown-it-katex");
+const markdownItFootnote = require("markdown-it-footnote");
 const navigation = require("@11ty/eleventy-navigation");
 const emojiReadTime = require("@11tyrocks/eleventy-plugin-emoji-readtime");
 const { format } = require("date-fns");
@@ -22,7 +23,9 @@ const dateFormatCb = (unformat) => format(unformat, DDMMYYYY);
 const ellipsisCb = (value) => `${value}${ELLIPSIS}`;
 
 module.exports = function (eleventyConfig) {
-  let markdownLib = markdownIt(MD_CONFIG).use(markdownItKatex);
+  let markdownLib = markdownIt(MD_CONFIG)
+    .use(markdownItKatex)
+    .use(markdownItFootnote);
   eleventyConfig.addFilter("date", dateFormatCb);
   eleventyConfig.addFilter("ellipsis", ellipsisCb);
   eleventyConfig.addPlugin(syntaxHighlight);
