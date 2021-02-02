@@ -13,15 +13,18 @@ const {
   EMBED_YOUTUBE_CONFIG,
   GRAY_MATTER_CONFIG,
   DDMMYYYY,
+  ELLIPSIS,
   EMOJI_READ_CONFIG,
 } = require("./11ty/constants");
 const { responsiveImgCb } = require("./11ty/transforms");
 
 const dateFormatCb = (unformat) => format(unformat, DDMMYYYY);
+const ellipsisCb = (value) => `${value}${ELLIPSIS}`;
 
 module.exports = function (eleventyConfig) {
   let markdownLib = markdownIt(MD_CONFIG).use(markdownItKatex);
   eleventyConfig.addFilter("date", dateFormatCb);
+  eleventyConfig.addFilter("ellipsis", ellipsisCb);
   eleventyConfig.addPlugin(syntaxHighlight);
   eleventyConfig.addPlugin(embedTwitter);
   eleventyConfig.addPlugin(embedYouTube, EMBED_YOUTUBE_CONFIG);

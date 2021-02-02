@@ -17,6 +17,8 @@ const EMOJI_READ_CONFIG = {
   emoji: "(⌒▽⌒)☆:",
 };
 
+const ELLIPSIS = "...";
+
 const DDMMYYYY = "dd.MM.yyyy";
 
 module.exports = {
@@ -25,4 +27,5 @@ module.exports = {
   GRAY_MATTER_CONFIG,
   EMOJI_READ_CONFIG,
   DDMMYYYY,
+  ELLIPSIS,
 };

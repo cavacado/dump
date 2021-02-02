@@ -11,13 +11,17 @@ eleventyNavigation:
 {% for post in collections.post -%}
   <div>
     <h2>{{post.data.title}}</h2>
-    <p>excerpt:
-      {{ post.data.page.excerpt }}</p>
-    <p>tags:
-      {% for tag in post.data.tags -%}|<a href="/tags/{{tag}}">{{tag}}</a>{% endfor -%}|</p>
-    <p>date added:
+    <p>
+      <strong>excerpt:</strong>
+      {{ post.data.page.excerpt | ellipsis }}</p>
+    <p>
+      <strong>date added:</strong>
       {{ post.data.date | date }}
       <a href="{{post.url}}">go</a>
     </p>
+    <p>
+      <strong>tags:</strong>
+      {% for tag in post.data.tags -%}|<a href="/tags/{{tag}}">{{tag}}</a>
+      {% endfor -%}|</p>
   </div>
 {% endfor -%}
